@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="PPP\Window.cpp">
+      <Filter>PPP_source</Filter>
+    </ClCompile>
+    <ClCompile Include="PPP\GUI.cpp">
+      <Filter>PPP_source</Filter>
+    </ClCompile>
+    <ClCompile Include="PPP\Graph.cpp">
+      <Filter>PPP_source</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="sources">
+      <UniqueIdentifier>{948c9851-fd5a-4779-b970-2026a01e489e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PPP_source">
+      <UniqueIdentifier>{6bafb63a-14a3-4f81-98ed-7e4f9e3f9ee4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
