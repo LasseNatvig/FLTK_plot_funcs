@@ -89,11 +89,11 @@ template <class T> void myFct<T>::calc()
 
 	// had to add void clear_points() { points.clear(); }
 	// to the protected section of the Shape class - annoying
-	//clear_points();
+	//clear_points(); 
 
 	for (int i = 0; i < count; ++i) {
-		int x = orig.x + int(int(r * xscale) / precision) * precision;
-		int y = orig.y - int(int(f(r) * yscale) / precision) * precision;
+		int x = orig.x + static_cast<int>(int(int(r * xscale) / precision) * precision);
+		int y = orig.y - static_cast<int>(int(int(f(r) * yscale) / precision) * precision);
 		add(Point{ x, y });
 		r += dist;
 	}
