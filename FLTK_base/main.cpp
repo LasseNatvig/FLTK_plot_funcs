@@ -5,6 +5,8 @@
 	- kombinert med å bruke til å teste funksjoner, har bilde
 	- prøv følge graphing a function  i PPP kap. 15
 
+	legger inn mer her i toppen
+
 */
 #define _USE_MATH_DEFINES
 #include "Simple_window.h"
@@ -23,7 +25,7 @@ Point orig{ x_orig, y_orig };
 
 constexpr int r_min = -10;
 constexpr int r_max = 10;
-constexpr int n_points = 40;
+constexpr int n_points = 40;   
 constexpr int x_scale = 20;
 constexpr int y_scale = 20;
 
