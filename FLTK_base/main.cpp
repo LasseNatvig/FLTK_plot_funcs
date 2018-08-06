@@ -2,10 +2,10 @@
 /* 
 *** TODO (prioritert):
 	- reduser maksimalt, forstå alt, kunne legge ut som eksempel på test-opplegg for både txt og graphics i øving, ...
+	  . forenkler; behold sinus, men gjør om cosinus til plynom (+ se bilde jeg har)
+	  . fjerner alt med cosinus, fjerne enum etterpå, fjerner behov for template?
 	- kombinert med å bruke til å teste funksjoner, har bilde
 	- prøv følge graphing a function  i PPP kap. 15
-
-	legger inn mer her i toppen
 
 */
 #define _USE_MATH_DEFINES
@@ -39,7 +39,7 @@ constexpr int ylength = ymax - yoffset - yspace;
 
 typedef double Fcti(double);
 double mysin(double x) { return sin(x); }
-double mycos(double x) { return cos(x); }
+
 template <class T> class myFct : public Shape {
 public:
 	myFct(Fcti* f, double r1, double r2, Point orig, int count = 100, double xscale = 25, double yscale = 25, T precision = 1.0);
@@ -80,16 +80,11 @@ template <class T> myFct<T>::myFct(Fcti* f, double r1, double r2, Point orig, in
 {
 	calc();
 }
-template <class T> void myFct<T>::calc()
-{
+template <class T> void myFct<T>::calc() {
 	if (r2 - r1 <= 0) error("bad graphing range");
 	if (count <= 0) error("non-positive graphing count");
 	double dist = (r2 - r1) / count;
 	double r = r1;
-
-	// had to add void clear_points() { points.clear(); }
-	// to the protected section of the Shape class - annoying
-	//clear_points(); 
 
 	for (int i = 0; i < count; ++i) {
 		int x = orig.x + static_cast<int>(int(int(r * xscale) / precision) * precision);
@@ -131,15 +126,12 @@ private:
 
 	//double x_manipulation(double x, int m) { return x * m; }
 	double my_sin(double x) { return sin(x); }
-	double my_cos(double x) { return cos(x); }
 
 	// actions invoked by callbacks
 	void quit() { hide(); }
 
 	void graph_type_menu_pressed() { graph_type.hide(); graph_type_menu.show(); }
-
 	void sin_graph();
-	void cos_graph();
 
 	// callback functions
 	static void cb_quit(Address, Address pw) { reference_to<application_window>(pw).quit(); }
@@ -148,7 +140,6 @@ private:
 	static void cb_graph_type_menu_pressed(Address, Address pw) { reference_to<application_window>(pw).graph_type_menu_pressed(); }
 
 	static void cb_sin_graph(Address, Address pw) { reference_to<application_window>(pw).sin_graph(); }
-	static void cb_cos_graph(Address, Address pw) { reference_to<application_window>(pw).cos_graph(); }
 
 	//------------- LAYOUT END
 };
@@ -174,7 +165,6 @@ application_window::application_window(Point xy, int w, int h, const string& tit
 	attach(equation);
 
 	graph_type_menu.attach(new Button(Point{ 0, 0 }, 0, 0, "sin", cb_sin_graph));
-	graph_type_menu.attach(new Button(Point{ 0, 0 }, 0, 0, "cos", cb_cos_graph));
 
 	attach(graph_type_menu);
 
@@ -190,31 +180,16 @@ application_window::application_window(Point xy, int w, int h, const string& tit
 	graph_type_menu.hide();
 }
 
-void application_window::sin_graph()
-{
+void application_window::sin_graph() {
 	graph_type_menu.hide();
 	graph_type.show();
-
 	base_equation.put("y = sin(x) * t");
 	g_type = sin_g;
 }
 
-void application_window::cos_graph()
-{
-	graph_type_menu.hide();
-	graph_type.show();
-
-	base_equation.put("y = cos(x) * t");
-	g_type = cos_g;
-}
-
-void application_window::draw_graph()
-{
-	// GRAPHS
-	if (g_type == sin_g)
-	{
+void application_window::draw_graph() {
+	if (g_type == sin_g){
 		equation.put("y = sin(x) * " + x_parameter.get_string());
-
 		// most painful lambda to function pointer work-around ever.
 		// saved the day:
 		// https://deviorel.wordpress.com/2015/01/27/obtaining-function-pointers-from-lambdas-in-c/
@@ -235,36 +210,12 @@ void application_window::draw_graph()
 			, x_scale
 			, y_scale
 		);
-
 	}
-	if (g_type == cos_g)
-	{
-		equation.put("y = cos(x) * " + x_parameter.get_string());
-
-		int t = x_parameter.get_int();
-		auto la = [=](double x) { return cos(x) * t; };
-
-		static function< double(double) > static_variable;
-		static_variable = la;
-		double(*ptr)(double) = [](double x) { return static_variable(x); };
-
-		funct.reset(
-			[](double x) { return static_variable(x); }
-			, r_min
-			, r_max
-			, orig
-			, n_points
-			, x_scale
-			, y_scale
-		);
-	}
-
 	funct.set_color(Color::visible);
 	redraw();
 }
 
 int main() {
 	application_window win(Point{ 100, 100 }, xmax, ymax + 20, "currency converter");
-
 	return gui_main();
 }
