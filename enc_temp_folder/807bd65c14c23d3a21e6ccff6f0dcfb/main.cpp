@@ -137,9 +137,7 @@ private:
 	void sin_graph();
 
 	// callback functions
-	static void cb_quit(Address, Address pw) { 
-		reference_to<app_window>(pw).quit(); 
-	}
+	static void cb_quit(Address, Address pw) { reference_to<app_window>(pw).quit(); }
 	static void cb_calculate(Address, Address pw) { reference_to<app_window>(pw).draw_graph(); }
 	static void cb_graph_type_menu_pressed(Address, Address pw) { reference_to<app_window>(pw).graph_type_menu_pressed(); }
 	static void cb_sin_graph(Address, Address pw) { reference_to<app_window>(pw).sin_graph(); }
@@ -149,7 +147,7 @@ private:
 app_window::app_window(Point xy, int w, int h, const string& title) : Window(xy, w, h, title),
 	quit_button(Point{ x_max() - 80, 10 }, 70, 20, "Quit", cb_quit),
 	show_button(Point{ x_max() - 80, 35 }, 70, 20, "Show", cb_calculate),
-	graph_type(Point{ 20, 10}, 100, 20, "Graph Type", cb_graph_type_menu_pressed),
+	graph_type(Point{ 20, 0}, 100, 20, "Graph Type", cb_graph_type_menu_pressed),
 	graph_type_menu(Point{ 20, 0 }, 100, 20, Menu::vertical, "Graph Type"),
 	base_equation(Point{ x_max() / 2, 0 }, 90, 20, "equation"),
 	x_parameter(Point{100, 40}, 20, 20, "t-paramter"),
