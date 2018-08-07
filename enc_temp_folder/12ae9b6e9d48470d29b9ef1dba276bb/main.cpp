@@ -112,7 +112,7 @@ func_toPlot() // New code shape
 void app_window::sin_graph() {
 	graph_type_menu.hide();
 	graph_type.show();
-	equation.put(" y = sin(x) * t .... ");
+	equation.put("y = sin(x) * t .... ");
 	g_type = sin_g;
 }
 
