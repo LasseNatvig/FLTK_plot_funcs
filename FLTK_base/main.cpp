@@ -6,6 +6,7 @@
 	  . fjerner alt med cosinus, fjerne enum etterpå, fjerner behov for template?
 	- kombinert med å bruke til å teste funksjoner, har bilde
 	- prøv følge graphing a function  i PPP kap. 15
+	- coeff a, b og c brukes bare for poly, la knappene bare være synlig da, og enklere for sinus ? --- se side 573 i PPP, popup-menu ikke så lett, vente med det
 
 */
 #define _USE_MATH_DEFINES
@@ -46,7 +47,7 @@ private:
 	Button show_button; 
 	Button graph_type;
 	Menu graph_type_menu;
-	In_box a_coeff;
+	In_box a_coeff, b_coeff, c_coeff;
 	Out_box equation;
 	graph_enum g_type;
 	Axis x_axis;
@@ -83,8 +84,10 @@ graph_type_menu(Point{ 20, 10 }, 100, 20, Menu::vertical, "Graph Type"),
 equation(Point{ (x_max() / 2) - 50, 10 }, 150, 20, "Equation"),
 // single variable quadratic function
 // https://en.wikipedia.org/wiki/Quadratic_function
-a_coeff(Point{ 100, 40 }, 20, 20, "Coefficient a"),
-// equation(Point{ x_max() / 2, 40 }, 90, 20, "equation"),
+a_coeff(Point{ 100, 60 }, 40, 20, "Coefficient a"),
+b_coeff(Point{ 100, 90 }, 40, 20, "Coefficient b"),
+c_coeff(Point{ 100, 120 }, 40, 20, "Coefficient c"),
+
 x_axis(Axis::x, Point{ orig.x - 200, orig.y }, 400, 20, "1 == 20"),
 y_axis(Axis::y, Point{ orig.x, orig.y + 200 }, 400, 20, "1 == 20"),
 func_toPlot() // New code shape
@@ -94,6 +97,9 @@ func_toPlot() // New code shape
 	attach(graph_type);
 	attach(equation);
 	attach(a_coeff);
+	attach(b_coeff);
+	attach(c_coeff);
+
 	// NOTE: Menu is using template-class Vector_ref see paragraph 13.10
 	// TODO try to hide it in a .h file (since early in course and it uses new ... )
 	graph_type_menu.attach(new Button(Point{ 0, 0 }, 0, 0, "sin", cb_sin_graph)); 
@@ -127,7 +133,8 @@ void app_window::poly_graph() {
 void app_window::draw_graph() {
 	if (g_type == sin_g){
 		cout << " add code here for shape funct sin  \n";
-		equation.put("y = sin(x) * " + a_coeff.get_string());
+		equation.put("y = sin(x) * ");
+		func_toPlot.set_color(FL_GREEN);
 		func_toPlot.add(Point{ 100,200 });
 		func_toPlot.add(Point{ 200,220 });
 		func_toPlot.add(Point{ 300,300 });
@@ -135,7 +142,8 @@ void app_window::draw_graph() {
 	}
 	else if (g_type == poly_g) {
 		cout << " add code here for shape funct poly \n";
-		equation.put("y = ... poly coming here " + a_coeff.get_string());
+		equation.put(" y = " + a_coeff.get_string() + "x**2 + " + b_coeff.get_string() + "x + " + c_coeff.get_string());
+		func_toPlot.set_color(FL_BLUE);
 		func_toPlot.add(Point{ 300,200 });
 		func_toPlot.add(Point{ 400,220 });
 		func_toPlot.add(Point{ 500,300 });
