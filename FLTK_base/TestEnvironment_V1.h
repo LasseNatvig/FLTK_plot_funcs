@@ -8,9 +8,9 @@
 #include <cassert>
 
 // layout
-constexpr int xmax = 600;
-constexpr int ymax = 600;
-constexpr int x_orig = 80 + (xmax / 2);
+constexpr int xmax = 800;
+constexpr int ymax = 500;
+constexpr int x_orig = (xmax / 2);
 constexpr int y_orig = 40 + (ymax / 2);
 Point orig{ x_orig, y_orig };
 

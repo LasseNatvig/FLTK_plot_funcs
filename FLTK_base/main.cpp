@@ -17,13 +17,12 @@ struct app_window : Window {
 	app_window(Point xy, int w, int h, const string& title);
 	void draw_graph();
 private:
-	Button quit_button;
-	Button show_button; 
-	Button graph_type;
+	Button quit_button, show_button, graph_type;
 	Menu graph_type_menu;
 	In_box a_coeff, b_coeff, c_coeff;
 	In_box from, to, steps;
-	Out_box equation;
+	Out_box equation;	
+	Out_box logg; // TODO test
 	graph_enum g_type;
 	Axis x_axis;
 	Axis y_axis;
@@ -55,7 +54,8 @@ quit_button(Point{ x_max() - 80, 10 }, 70, 20, "Quit", cb_quit),
 show_button(Point{ x_max() - 80, 35 }, 70, 20, "Show", cb_calculate),
 graph_type(Point{ 20, 10 }, 100, 20, "Graph Type", cb_graph_type_menu_pressed),
 graph_type_menu(Point{ 20, 10 }, 100, 20, Menu::vertical, "Graph Type"),
-equation(Point{ (x_max() / 2) - 50, 10 }, 150, 20, "Equation"),
+equation(Point{ (x_max() / 2) - 100, 10 }, 250, 20, "Equation"), 
+logg(Point{ (x_max() / 2), 100 }, 250, 200, "Logg"),
 // single variable quadratic function
 // https://en.wikipedia.org/wiki/Quadratic_function
 a_coeff(Point{ 100,  60 }, 40, 20, "Coefficient a"),
@@ -68,25 +68,20 @@ x_axis(Axis::x, Point{ orig.x - 200, orig.y }, 400, 20, "1 == 20"),
 y_axis(Axis::y, Point{ orig.x, orig.y + 200 }, 400, 20, "1 == 20"),
 func_toPlot() // New code shape
 {
-	attach(quit_button);
-	attach(show_button);
-	attach(graph_type);
-	attach(equation);
+	attach(quit_button); attach(show_button); attach(graph_type);
+	attach(equation); attach(logg);
 	attach(a_coeff); attach(b_coeff); attach(c_coeff);
 	attach(from); attach(to); attach(steps);
-
 	// NOTE: Menu is using template-class Vector_ref see paragraph 13.10
 	// TODO try to hide it in a .h file (since early in course and it uses new ... )
-	graph_type_menu.attach(new Button(Point{ 0, 0 }, 0, 0, "sin", cb_sin_graph)); 
-	graph_type_menu.attach(new Button(Point{ 0, 0 }, 0, 0, "poly", cb_poly_graph)); // TODO shows two buttons in menu, but poly is NOT impelmented
+	graph_type_menu.attach(new Button(Point{ 0, 0 }, 0, 0, "sin (red)", cb_sin_graph)); 
+	graph_type_menu.attach(new Button(Point{ 0, 0 }, 0, 0, "poly (blue)", cb_poly_graph)); // TODO shows two buttons in menu, but poly is NOT impelmented
 	attach(graph_type_menu);
 	x_axis.set_color(Color::black);
 	y_axis.set_color(Color::black);
 	attach(x_axis);
 	attach(y_axis);
-	func_toPlot.set_color(FL_RED); // TODO why different color from 3 lines above?, does not work?
 	attach(func_toPlot);
-	// func_toPlot.set_color(Color::invisible);
 	graph_type_menu.hide();
 }
 void app_window::sin_graph() {
@@ -101,6 +96,8 @@ void app_window::poly_graph() {
 	equation.put("y = poly ...... ");
 	g_type = poly_g;
 }
+// TODO - bør gis feilmelding om det forsøkes å plotte utenfor
+
 
 // pair se side 782
 typedef pair<double, double> xyPair;
@@ -126,19 +123,16 @@ double findMax_absolute_Yvalue(vector<xyPair> values) {
 			if (max < values[i].second) max = values[i].second;
 		}
 		if (min < 0) min = -min;   // Take absolute value
-		if (min > max)
-			return min;
-		else 
-			return max;
+		if (min > max) 	return min;
+		else return max;
 	}
 }
 void app_window::draw_graph() {
 	if (g_type == sin_g){
 		cout << " add code here for shape funct sin  \n";
 		equation.put("y = sin(x) * ");
-		func_toPlot.set_color(FL_GREEN);
+		func_toPlot.set_color(FL_RED);
 		func_toPlot.add(Point{ 100,200 });
-		func_toPlot.add(Point{ 200,220 });
 		func_toPlot.add(Point{ 300,300 });
 	}
 	else if (g_type == poly_g) {
@@ -148,7 +142,7 @@ void app_window::draw_graph() {
 		vector<xyPair> values;
 		int minX = -20; int maxX = 20; int steps = 10;
 		assert(-minX == maxX); // krever symmetri
-		values = calcPoly(minX, maxX, steps, 2, 4, -200);  // TODO end use of magic values // Legg in assert på fra -K til +K, altså Symmetrisk
+		values = calcPoly(minX, maxX, steps, a_coeff.get_int(), b_coeff.get_int(), c_coeff.get_int());  // TODO end use of magic values // Legg in assert på fra -K til +K, altså Symmetrisk
 		double maxY = findMax_absolute_Yvalue(values);
 		for (auto p : values) {
 			int xPlot, yPlot; // from -20 to +20 in  10 tick
@@ -159,11 +153,9 @@ void app_window::draw_graph() {
 			func_toPlot.add(Point{ xPlot, yPlot });
 		}
 	}
-	func_toPlot.set_color(Color::visible);
 	redraw();
 }
 int main() {
 	app_window win(Point{ 50, 50 }, xmax, ymax + 20, "Text and graphics demo");
-
 	return gui_main();
 }
