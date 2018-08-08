@@ -24,6 +24,9 @@
     <ClCompile Include="PPP\GUI.cpp" />
     <ClCompile Include="PPP\Window.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TestEnvironment_V1.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{80542877-7B46-43DB-9B65-429CEF5483A7}</ProjectGuid>

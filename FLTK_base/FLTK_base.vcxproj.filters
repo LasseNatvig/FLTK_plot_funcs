@@ -22,4 +22,9 @@
       <UniqueIdentifier>{6bafb63a-14a3-4f81-98ed-7e4f9e3f9ee4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TestEnvironment_V1.h">
+      <Filter>sources</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>

@@ -1,5 +1,4 @@
-// Based on: https://bumpyroadtocode.com/2018/04/08/visual-graphing-program-fltk/   (Copied in 313 lines)
-/* 
+/*Based on: https://bumpyroadtocode.com/2018/04/08/visual-graphing-program-fltk/   (Copied in 313 lines)
 *** TODO (prioritert):
 	- reduser maksimalt, forstå alt, kunne legge ut som eksempel på test-opplegg for både txt og graphics i øving, ...
 	  . forenkler; behold sinus, men gjør om cosinus til plynom (+ se bilde jeg har)
@@ -7,37 +6,8 @@
 	- kombinert med å bruke til å teste funksjoner, har bilde
 	- prøv følge graphing a function  i PPP kap. 15
 	- coeff a, b og c brukes bare for poly, la knappene bare være synlig da, og enklere for sinus ? --- se side 573 i PPP, popup-menu ikke så lett, vente med det
-
 */
-#define _USE_MATH_DEFINES
-#include "Simple_window.h"
-#include "Graph.h"
-#include <cmath>
-#include "GUI.h"
-#include "std_lib_facilities.h"
-#include <functional>
-
-// layout
-constexpr int xmax = 600; 
-constexpr int ymax = 600;
-constexpr int x_orig = xmax / 2;
-constexpr int y_orig = ymax / 2;
-Point orig{ x_orig, y_orig };
-
-constexpr int r_min = -10;
-constexpr int r_max = 10;
-constexpr int n_points = 40;   
-constexpr int x_scale = 20;
-constexpr int y_scale = 20;
-
-// layout
-constexpr int xoffset = 100;
-constexpr int yoffset = 100;
-constexpr int xspace = 100;
-constexpr int yspace = 100;
-constexpr int xlength = xmax - xoffset - xspace;
-constexpr int ylength = ymax - yoffset - yspace;
-
+#include "TestEnvironment_V1.h"  // More will be moved here
 struct app_window : Window {
 	enum graph_enum { sin_g, poly_g };
 	app_window(Point xy, int w, int h, const string& title);
