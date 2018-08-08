@@ -3,8 +3,9 @@
 #include "Graph.h"
 #include <cmath>
 #include "GUI.h"
-#include "std_lib_facilities.h"
 #include <functional>
+#include "std_lib_facilities.h"
+#include <cassert>
 
 // layout
 constexpr int xmax = 600;
