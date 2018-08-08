@@ -108,7 +108,7 @@ vector<xyPair> calcPoly(int from, int to, int steps, int aCoeff, int bCoeff, int
 	assert(to > from);
 	vector<xyPair> values;
 	for (int i = 0; i <= steps; i++) {
-		double x = from + (i*((to - from) / steps));   // Sjekk at sist eblir med, teste med få steg ...  // antar trenger cast
+		double x = from + (i*((to - from) / steps));   // Sjekk at siste blir med, teste med få steg ...  // antar trenger cast
 		xyPair p;
 		p.first = x;
 		p.second = (aCoeff * x * x) + (bCoeff * x) + cCoeff;
@@ -116,7 +116,22 @@ vector<xyPair> calcPoly(int from, int to, int steps, int aCoeff, int bCoeff, int
 	}
 	return values;
 }
-
+double findMax_absolute_Yvalue(vector<xyPair> values) { 
+	if (values.size() == 0) { cout << " error"; }
+	else {
+		double min = values[0].second;
+		double max = values[0].second;
+		for (unsigned int i = 1; i < values.size(); i++) {
+			if (min > values[i].second) min = values[1].second;
+			if (max < values[i].second) max = values[i].second;
+		}
+		if (min < 0) min = -min;   // Take absolute value
+		if (min > max)
+			return min;
+		else 
+			return max;
+	}
+}
 void app_window::draw_graph() {
 	if (g_type == sin_g){
 		cout << " add code here for shape funct sin  \n";
@@ -131,17 +146,24 @@ void app_window::draw_graph() {
 		equation.put(" y = " + a_coeff.get_string() + "x**2 + " + b_coeff.get_string() + "x + " + c_coeff.get_string());
 		func_toPlot.set_color(FL_BLUE);
 		vector<xyPair> values;
-		values = calcPoly(-20, 30, 10, 4, 5, -20);
+		int minX = -20; int maxX = 20; int steps = 10;
+		assert(-minX == maxX); // krever symmetri
+		values = calcPoly(minX, maxX, steps, 2, 4, -200);  // TODO end use of magic values // Legg in assert på fra -K til +K, altså Symmetrisk
+		double maxY = findMax_absolute_Yvalue(values);
 		for (auto p : values) {
-			// PUNKT må plasseres smartere inne i grafen
-			func_toPlot.add(Point{ 100 + static_cast<int>(p.first), 100 +static_cast<int>(p.second) }); // viser behovet for cast  --- narrowing conversion
+			int xPlot, yPlot; // from -20 to +20 in  10 tick
+			xPlot = orig.x + static_cast<int>((p.first) / static_cast<double>(maxX) * 200); // viser behovet for cast  --- narrowing conversion
+			yPlot = orig.y - static_cast<int>(p.second) / static_cast<double>(maxY) * 200;  // turn direction of y
+			cout << "x:" << static_cast<int>(p.first) << "   y:" << static_cast<int>(p.second) << endl;
+			cout << "xPlot:" << xPlot << "   yPlot:" << yPlot << endl;
+			func_toPlot.add(Point{ xPlot, yPlot });
 		}
 	}
 	func_toPlot.set_color(Color::visible);
 	redraw();
 }
 int main() {
-	app_window win(Point{ 100, 100 }, xmax, ymax + 20, "Text and graphics demo");
+	app_window win(Point{ 50, 50 }, xmax, ymax + 20, "Text and graphics demo");
 
 	return gui_main();
 }
