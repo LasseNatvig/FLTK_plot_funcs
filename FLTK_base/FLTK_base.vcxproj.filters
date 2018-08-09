@@ -13,6 +13,9 @@
     <ClCompile Include="main.cpp">
       <Filter>sources</Filter>
     </ClCompile>
+    <ClCompile Include="myMath.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="sources">
@@ -24,6 +27,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestEnvironment_V1.h">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="myMath.h">
       <Filter>sources</Filter>
     </ClInclude>
   </ItemGroup>

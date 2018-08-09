@@ -1,3 +1,6 @@
+// TestEnvironment_V1.h
+// -- contains so far lots of constants defining window layout
+#pragma once
 #define _USE_MATH_DEFINES
 #include "Simple_window.h"
 #include "Graph.h"
@@ -6,6 +9,8 @@
 #include <functional>
 #include "std_lib_facilities.h"
 #include <cassert>
+
+#include "myMath.h"
 
 // layout
 constexpr int xmax = 800;

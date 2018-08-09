@@ -20,11 +20,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="myMath.cpp" />
     <ClCompile Include="PPP\Graph.cpp" />
     <ClCompile Include="PPP\GUI.cpp" />
     <ClCompile Include="PPP\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="myMath.h" />
     <ClInclude Include="TestEnvironment_V1.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
