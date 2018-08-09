@@ -1,7 +1,7 @@
 // GUI - test 2 (github) *** notater i MMAP
 #include "TestEnvironment_V1.h"  // More will be moved here
 //struct app_window : Window {
-class app_window : Window {
+struct app_window : Window {
 	enum graph_enum { sin_g, poly_g };
 	app_window(Point xy, int w, int h, const string& title);  
 	void draw_graph();
@@ -43,8 +43,6 @@ graph_type(Point{ 20, 10 }, 100, 20, "Graph Type", cb_graph_type_menu_pressed),
 graph_type_menu(Point{ 20, 10 }, 100, 20, Menu::vertical, "Graph Type"),
 equation(Point{ (x_max() / 2) - 100, 10 }, 250, 20, "Equation"), 
 logg(Point{ (x_max() / 2), 100 }, 250, 200, "Logg"),
-// single variable quadratic function
-// https://en.wikipedia.org/wiki/Quadratic_function
 a_coeff(Point{ 100,  60 }, 40, 20, "Coefficient a"),
 b_coeff(Point{ 100,  90 }, 40, 20, "Coefficient b"),
 c_coeff(Point{ 100, 120 }, 40, 20, "Coefficient c"), 
@@ -66,8 +64,7 @@ func_toPlot() // New code shape
 	attach(graph_type_menu);
 	x_axis.set_color(Color::black);
 	y_axis.set_color(Color::black);
-	attach(x_axis);
-	attach(y_axis);
+	attach(x_axis); 	attach(y_axis);
 	attach(func_toPlot);
 	graph_type_menu.hide();
 }
