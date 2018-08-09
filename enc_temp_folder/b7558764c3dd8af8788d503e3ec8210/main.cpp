@@ -61,13 +61,13 @@ func_toPlot()
 void app_window::sin_graph() {
 	graph_type_menu.hide();
 	graph_type.show();
-	equation.put(" y = sin(x) * t .... "); // TODO fix here
+	equation.put(" y = sin(x) * t .... ");
 	g_type = sin_g;
 }
 void app_window::poly_graph() {
 	graph_type_menu.hide();
 	graph_type.show();
-	equation.put("y = poly ...... "); // TODO fix here 
+	equation.put("y = poly ...... ");
 	g_type = poly_g;
 }
 void app_window::draw_graph() {
