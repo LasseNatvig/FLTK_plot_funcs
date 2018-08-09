@@ -1,20 +1,9 @@
-/*Based on: https://bumpyroadtocode.com/2018/04/08/visual-graphing-program-fltk/   (Copied in 313 lines)
-*** TODO (prioritert):
-	- reduser maksimalt, forstå alt, kunne legge ut som eksempel på test-opplegg for både txt og graphics i øving, ...
-	  . forenkler; behold sinus, men gjør om cosinus til plynom (+ se bilde jeg har)
-	  . fjerner alt med cosinus, fjerne enum etterpå, fjerner behov for template?
-	- kombinert med å bruke til å teste funksjoner, har bilde
-	- prøv følge graphing a function  i PPP kap. 15
-	- coeff a, b og c brukes bare for poly, la knappene bare være synlig da, og enklere for sinus ? --- se side 573 i PPP, popup-menu ikke så lett, vente med det
-	- se Lecture 1 ppt  ideer 
-	TODO ONSDAG, sinus-verdier, funksjon returnerer vector av double
-		- calc FuncValues
-		- enkel fil myMath (kvadratisk likning)
-*/
+// GUI - test 2 (github) *** notater i MMAP
 #include "TestEnvironment_V1.h"  // More will be moved here
-struct app_window : Window {
+//struct app_window : Window {
+class app_window : Window {
 	enum graph_enum { sin_g, poly_g };
-	app_window(Point xy, int w, int h, const string& title);
+	app_window(Point xy, int w, int h, const string& title);  
 	void draw_graph();
 private:
 	Button quit_button, show_button, graph_type;
@@ -24,10 +13,8 @@ private:
 	Out_box equation;	
 	Out_box logg; // TODO test
 	graph_enum g_type;
-	Axis x_axis;
-	Axis y_axis;
-	Open_polyline func_toPlot;  // Changed by Lasse
-	double my_sin(double x) { return sin(x); }
+	Axis x_axis, y_axis;
+	Open_polyline func_toPlot; 
 	// actions invoked by callbacks
 	void quit() { hide(); }
 	void graph_type_menu_pressed() { 
@@ -96,11 +83,7 @@ void app_window::poly_graph() {
 	equation.put("y = poly ...... ");
 	g_type = poly_g;
 }
-// TODO - bør gis feilmelding om det forsøkes å plotte utenfor
-
-
-// pair se side 782
-typedef pair<double, double> xyPair;
+typedef pair<double, double> xyPair; // pair se side 782
 vector<xyPair> calcPoly(int from, int to, int steps, int aCoeff, int bCoeff, int cCoeff) {
 	assert(to > from);
 	vector<xyPair> values;
@@ -114,7 +97,10 @@ vector<xyPair> calcPoly(int from, int to, int steps, int aCoeff, int bCoeff, int
 	return values;
 }
 double findMax_absolute_Yvalue(vector<xyPair> values) { 
-	if (values.size() == 0) { cout << " error"; }
+	if (values.size() == 0) { 
+		cout << " error"; 
+		return -1;
+	}
 	else {
 		double min = values[0].second;
 		double max = values[0].second;
@@ -147,7 +133,7 @@ void app_window::draw_graph() {
 		for (auto p : values) {
 			int xPlot, yPlot; // from -20 to +20 in  10 tick
 			xPlot = orig.x + static_cast<int>((p.first) / static_cast<double>(maxX) * 200); // viser behovet for cast  --- narrowing conversion
-			yPlot = orig.y - static_cast<int>(p.second) / static_cast<double>(maxY) * 200;  // turn direction of y
+			yPlot = static_cast<int>(orig.y - static_cast<int>(p.second) / static_cast<double>(maxY) * 200);  // turn direction of y
 			cout << "x:" << static_cast<int>(p.first) << "   y:" << static_cast<int>(p.second) << endl;
 			cout << "xPlot:" << xPlot << "   yPlot:" << yPlot << endl;
 			func_toPlot.add(Point{ xPlot, yPlot });
